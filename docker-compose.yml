@@ -1,0 +1,33 @@
+services:
+  ollama:
+    build:
+      context: ./ollama
+    container_name: ollama
+    volumes:
+      - ./ollama:/app
+    ports:
+      - "8080:80"
+    networks:
+      - ollama-network
+
+  llama3:
+    build:
+      context: ./llama3
+    container_name: llama3
+    ports:
+      - "8081:80"
+    networks:
+      - ollama-network
+
+  webui:
+    build:
+      context: ./webui
+    container_name: webui
+    ports:
+      - "3000:3000"
+    networks:
+      - ollama-network
+
+networks:
+  ollama-network:
+    driver: bridge
