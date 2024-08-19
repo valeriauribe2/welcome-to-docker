@@ -21,10 +21,11 @@ services:
     networks:
       - ollama-network
 
-  webui:
+      
+  webui:  # Updated name
     build:
-      context: ./webui
-    container_name: webui
+      context: ./webui  # Updated context
+    container_name: webui  # Updated container name
     ports:
       - "3000:3000"
     networks:
