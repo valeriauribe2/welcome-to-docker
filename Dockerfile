@@ -1,8 +1,10 @@
+#Stage 1: Build
+
 # Start your image with a node base image
 FROM node:22-alpine3.19 as builder
 
 # The /app directory should act as the main application directory
-WORKDIR /app
+WORKDIR /app		
 
 # Copy the app package and package-lock.json file
 COPY package*.json ./
