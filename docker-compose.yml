@@ -10,7 +10,8 @@ services:
       - "8080:80"
     networks:
       - ollama-network
-    image: ollama/ollama:latest
+    image: welcome-to-docker-ollama
+
 
   llama3:
     build:
@@ -20,16 +21,52 @@ services:
       - "8081:80"
     networks:
       - ollama-network
+    environment:
+     - FLASK_ENV=development
+    command: python llama3.py
+    image: welcome-to-docker-llama3
 
-  claude:
-    build:
-      context: ./claude
-    container_name: claude
+  open-webui:  # This is for Open WebUI integration
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
     ports:
-      - "8082:80"
+      - "3000:8080"
     networks:
       - ollama-network
-    image: claude/claude:latest
+
+  lobechat:
+    image: lobehub/lobe-chat:latest  
+    container_name: lobechat
+    ports:
+      - "3210:3210" 
+    networks:
+      - ollama-network
+
+  #jupyter:
+  #  build:
+  #    context: ./jupyter  # Assuming you have a Dockerfile in the ./jupyter directory
+  #  container_name: my-jupyter-instance
+   # ports:
+  #    - "8888:8888"  # Default port for Jupyter
+ #   networks:
+  #    - ollama-network
+  #  volumes:
+ #     - /Users/valeriauribe/Github/trainings/Jupyternotebooks  # Mount your notebooks directory to the container
+ #   command: jupyter notebook --ip=0.0.0.0 --no-browser --allow-root
+
+
+
+
+
+  #claude:
+  #  build:
+  #    context: ./claude
+  #  container_name: claude
+  #  ports:
+   #   - "8082:80"
+  #  networks:
+  #    - ollama-network
+  #  image: claude/claude:latest
 
 
 
@@ -72,14 +109,7 @@ services:
   #    - 'OLLAMA_BASE_URL=http://ollama:11434'
   #    - 'WEBUI_SECRET_KEY='
 
-  webui:
-    build:
-      context: ./webui
-    container_name: webui
-    ports:
-      - "3000:3000"
-    networks:
-      - ollama-network
+
 
   #webui:  # This is for your custom WebUI
   #  build:
