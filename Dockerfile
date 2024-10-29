@@ -1,17 +1,21 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.13-slim
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
 # Copy the current directory contents into the container at /usr/src/app
 COPY . .
+COPY run-daemon.sh /app/run-daemon.sh
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+RUN chmod +x /app/run-daemon.sh
+
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
 # Run the command to start a simple HTTP server
 CMD ["python", "-m", "http.server", "8000"]
+CMD ["/app/run-daemon.sh", "&"]
