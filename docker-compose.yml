@@ -10,7 +10,7 @@ services:
       - "8080:80"
     networks:
       - ollama-network
-    image: welcome-to-docker-ollama
+    image: ollama-image
 
 
   llama3:
@@ -24,7 +24,7 @@ services:
     environment:
      - FLASK_ENV=development
     command: python llama3.py
-    image: welcome-to-docker-llama3
+    image: llama3-image
 
   open-webui:  # This is for Open WebUI integration
     image: ghcr.io/open-webui/open-webui:main
