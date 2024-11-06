@@ -1,18 +1,22 @@
-# Use an official Python runtime as a parent image
-FROM python:3.13-slim
+#Stage 1: Build
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Start your image with a node base image
+FROM node:22-alpine3.19 as builder
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY . .
+# The /app directory should act as the main application directory
+WORKDIR /app		
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the app package and package-lock.json file
+COPY package*.json ./
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+# Copy local directories to the current local directory of our docker image (/app)
+COPY ./src ./src
+COPY ./public ./public
 
-# Run the command to start a simple HTTP server
-CMD ["python", "-m", "http.server", "8000"]
+# Install node packages, install serve, build the app, and remove dependencies at the end
+RUN npm install \
+    && npm run build
 
+# Use a slim nginx image to reduce our image size drastically
+FROM nginx:alpine-slim
+COPY --from=builder /app/build /usr/share/nginx/html
