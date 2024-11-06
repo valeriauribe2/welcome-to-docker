@@ -1,0 +1,26 @@
+# Start from a lighter Jupyter notebook base image
+FROM jupyter/base-notebook:latest
+
+# Install any additional Python packages you need
+RUN pip install --no-cache-dir ollama python-dotenv
+
+# Set a working directory within the container
+WORKDIR /workspace
+
+# Copy over your notebook files (uncomment the next line if you want to do this)
+# COPY . /workspace
+
+ #The container by default runs as user 'jovyan', change to root if you need more permissions (uncomment the next line if needed)
+USER root
+
+ # Expose the Jupyter port
+EXPOSE 8888
+
+# The command to run Jupyter, allowing it to bind to all IP addresses, without opening a browser
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+
+
+
+# Optional: Uncomment the following lines to set a password
+# Replace <hashed_password> with the actual hashed password
+#RUN echo "c.NotebookApp.password = u'sha1:<hashed_password>'" >> /home/jovyan/.jupyter/jupyter_notebook_config.py
