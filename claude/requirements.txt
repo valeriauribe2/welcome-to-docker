@@ -1,0 +1,3 @@
+Anthropic
+requests
+Python-dotenv
