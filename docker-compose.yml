@@ -1,35 +1,132 @@
+
 services:
   ollama:
     build:
       context: ./ollama
     container_name: ollama
-    volumes:
-      - ./ollama:/app
+    #volumes:
+    #  - ./ollama:/app
     ports:
       - "8080:80"
     networks:
       - ollama-network
+    image: welcome-to-docker-ollama
+
 
   llama3:
     build:
       context: ./llama3
     container_name: llama3
-    volumes:
-      - ./llama3:/app
     ports:
       - "8081:80"
     networks:
       - ollama-network
+    environment:
+     - FLASK_ENV=development
+    command: python llama3.py
+    image: welcome-to-docker-llama3
 
-      
-  webui:  # Updated name
-    build:
-      context: ./webui  # Updated context
-    container_name: webui  # Updated container name
+  open-webui:  # This is for Open WebUI integration
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
     ports:
-      - "3000:3000"
+      - "3000:8080"
     networks:
       - ollama-network
+
+  lobechat:
+    image: lobehub/lobe-chat:latest  
+    container_name: lobechat
+    ports:
+      - "3210:3210" 
+    networks:
+      - ollama-network
+
+  #jupyter:
+  #  build:
+  #    context: ./jupyter  # Assuming you have a Dockerfile in the ./jupyter directory
+  #  container_name: my-jupyter-instance
+   # ports:
+  #    - "8888:8888"  # Default port for Jupyter
+ #   networks:
+  #    - ollama-network
+  #  volumes:
+ #     - /Users/valeriauribe/Github/trainings/Jupyternotebooks  # Mount your notebooks directory to the container
+ #   command: jupyter notebook --ip=0.0.0.0 --no-browser --allow-root
+
+
+
+
+
+  #claude:
+  #  build:
+  #    context: ./claude
+  #  container_name: claude
+  #  ports:
+   #   - "8082:80"
+  #  networks:
+  #    - ollama-network
+  #  image: claude/claude:latest
+
+
+
+
+
+
+  #swan:
+   # build:
+    #  context: ./swan
+    #container_name: swan
+    #ports:
+   #   - "5000:5000"
+   # networks:
+    
+
+
+#claude:
+  #  build:
+  #    context: ./claude
+   # container_name: claude
+  #  ports:
+  #    - "8082:80"
+ #   networks:
+  #    - ollama-network
+
+#webui2:
+ #   build:
+  #    context: ./webui
+ #   container_name: open-webui
+   # networks:
+   #   - ollama-network
+  #  image: ghcr.io/open-webui/open-webui:main
+ #  volumes:
+  #  - open-webui:/backend/app
+  #  depends_on:
+  #    - ollama 
+  #  ports:
+   #   - "3000:8080"
+  #  environment:
+  #    - 'OLLAMA_BASE_URL=http://ollama:11434'
+  #    - 'WEBUI_SECRET_KEY='
+
+
+
+  #webui:  # This is for your custom WebUI
+  #  build:
+  #    context: ./webui
+  #  container_name: webui
+  #  ports:
+  #    - "3000:3000"
+  #  networks:
+  #    - ollama-network
+
+  #open-webui:  # This is for Open WebUI integration
+   # image: ghcr.io/open-webui/open-webui:main
+   # container_name: open-webui
+   # ports:
+    #  - "8080:8080"
+   # networks:
+   #   - ollama-network
 
 networks:
   ollama-network:
