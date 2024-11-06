@@ -7,8 +7,10 @@ WORKDIR /app
 # Copy requirements.txt into the image
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies, ensuring compatibility between Flask and Werkzeug
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir --upgrade flask werkzeug \
+    && pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .
@@ -17,4 +19,4 @@ COPY . .
 EXPOSE 80
 
 # Define the default command to run the application
-CMD ["python", "app.py"]
+CMD ["python", "ollama.py"]
