@@ -31,16 +31,20 @@ services:
     container_name: open-webui
     ports:
       - "3000:8080"
+    volumes:
+      - open-webui:/backend/app
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:8080 # Use service name
     networks:
       - ollama-network
 
-  lobechat:
-    image: lobehub/lobe-chat:latest  
-    container_name: lobechat
-    ports:
-      - "3210:3210" 
-    networks:
-      - ollama-network
+ # lobechat:
+ #   image: lobehub/lobe-chat:latest  
+ #   container_name: lobechat
+ #   ports:
+ #     - "3210:3210" 
+ #   networks:
+ #     - ollama-network
 
   #jupyter:
   #  build:
