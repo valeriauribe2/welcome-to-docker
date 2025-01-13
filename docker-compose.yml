@@ -135,3 +135,17 @@ services:
 networks:
   ollama-network:
     driver: bridge
+
+    #whisper 
+# docker run --name container_whisper --publish 8000:8000 --volume ~/.cache/huggingface:/root/.cache/huggingface --env WHISPER_MODEL=Systran/faster-whisper-small --detach fedirz/faster-whisper-server:latest-cpu
+# whisper:  # This is for Open WebUI integration
+   # image: fedirz/faster-whisper-server:latest-cpu
+   # container_name: whispercontainer
+   # ports:
+   #   - "8000:8000"
+   # volumes:
+   #   - ~/.cache/huggingface:/root/.cache/huggingface
+   # environment:
+   #   - WHISPER__MODEL=Systran/faster-whisper-small 
+   # networks:
+    #  - ollama-network

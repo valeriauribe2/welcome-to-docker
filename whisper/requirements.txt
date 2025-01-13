@@ -1,0 +1,8 @@
+# Whisper and dependencies
+git+https://github.com/openai/whisper.git
+torch==2.0.1
+torchaudio==2.0.1
+
+# Additional utilities
+numpy==1.24.4
+openai-whisper==20230314
